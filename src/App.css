@@ -1,0 +1,10 @@
+.app {
+  text-align: center;
+  font-size:1000px;
+}
+
+.aogo {
+  height:40px;
+  pointer-events: none;
+  color: red;
+}

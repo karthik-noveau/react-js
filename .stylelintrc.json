@@ -1,0 +1,10 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "unit-allowed-list": ["em", "rem", "s"],
+    "color-no-invalid-hex": true,
+    "declaration-property-value-allowed-list": {
+      "color": ["/^var\\(\\s*--kf-color-[a-zA-Z0-9-]+\\s*\\)$/"]
+    }
+  }
+}
