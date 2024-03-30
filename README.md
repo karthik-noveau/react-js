@@ -1,3 +1,3 @@
 # Webpack Concepts
-MicroFrontend-moduleFederation
+MicroFrontend-moduleFederation/
 Stylelint
