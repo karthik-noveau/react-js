@@ -2,6 +2,7 @@
   "name": "stylelint",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -24,12 +25,15 @@
     "html-webpack-plugin": "^5.5.3",
     "prettier": "^3.2.5",
     "style-loader": "^3.3.4",
+    "@actions/core": "1.10.1",
     "stylelint": "^16.2.1",
     "stylelint-config-standard": "36.0.0",
     "stylelint-webpack-plugin": "^5.0.0",
     "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.2"
+    "webpack-dev-server": "^5.0.2",
+    "path": "0.12.7",
+    "child_process": "1.0.2"
   },
   "scripts": {
     "clean": "rm dist/bundle.js",
