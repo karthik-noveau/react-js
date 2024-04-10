@@ -1,0 +1,64 @@
+name: EsLint
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - master
+
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        id: pnpm-install
+        with:
+          version: 7
+
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Cache pnpm dependencies
+        uses: actions/cache@v3
+        id: cache-dependency
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-pnpm-cache-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-cache-
+
+      - name: Install dependencies
+        if: steps.cache-dependency.outputs.cache-hit != 'true'
+        run: pnpm install
+
+      - name: Fetch changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v42
+        with:
+          use_rest_api: true
+          skip_annotations: true
+          files: |
+            **/*.css
+            **/*.js
+            **/*.jsx
+
+      - name: Separate changed files by its type
+        id: separated-files
+        env:
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: node build/github.action.lint.js
+
+      - name: Run Eslint
+        if: steps.separated-files.outputs.js_changed_files != ''
+        run: npx eslint ${{ steps.separated-files.outputs.js_changed_files }}
+
+      - name: Run Stylelint
+        if: steps.separated-files.outputs.css_changed_files != ''
+        run: npx stylelint -f github ${{ steps.separated-files.outputs.css_changed_files }}
