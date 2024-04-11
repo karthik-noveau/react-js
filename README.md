@@ -1,3 +1,4 @@
 # Webpack Concepts
 MicroFrontend-moduleFederation\
-Stylelint
+Stylelint\
+echarts
