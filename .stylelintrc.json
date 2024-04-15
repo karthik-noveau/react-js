@@ -1,10 +1,12 @@
 {
-  "extends": ["stylelint-config-standard"],
+  "plugins": ["stylelint-use-logical"],
   "rules": {
-    "unit-allowed-list": ["em", "rem", "s"],
-    "color-no-invalid-hex": true,
-    "declaration-property-value-allowed-list": {
-      "color": ["/^var\\(\\s*--kf-color-[a-zA-Z0-9-]+\\s*\\)$/"]
-    }
+    "no-descending-specificity": null,
+    "rule-empty-line-before": [
+      "always",
+      {
+        "except": ["first-nested"]
+      }
+    ]
   }
 }
