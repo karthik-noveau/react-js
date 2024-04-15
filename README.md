@@ -1,5 +1,5 @@
 # Stylelint  
-    runtime build stop when error occures
-    github action with annotations
-    stylelint error properties
-    generate stylelint report via runtime commands
+    1. runtime build stop when error occures
+    2. github action with annotations
+    3. stylelint error properties
+    4. generate stylelint report via runtime commands
