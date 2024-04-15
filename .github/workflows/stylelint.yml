@@ -25,18 +25,8 @@ jobs:
         with:
           node-version: "16"
 
-      - name: Cache pnpm dependencies
-        uses: actions/cache@v3
-        id: cache-dependency
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-pnpm-cache-${{ hashFiles('**/package.json') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-cache-
-
       - name: Install dependencies
-        if: steps.cache-dependency.outputs.cache-hit != 'true'
-        run: pnpm install
+        run: npm install
 
       - name: Fetch changed files
         id: changed-files
