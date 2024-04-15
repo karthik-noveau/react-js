@@ -25,7 +25,17 @@ jobs:
         with:
           node-version: "16"
 
+      - name: Cache pnpm dependencies
+        uses: actions/cache@v3
+        id: cache-dependency
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-pnpm-cache-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-cache-
+
       - name: Install dependencies
+        if: steps.cache-dependency.outputs.cache-hit != 'true'
         run: npm install
 
       - name: Fetch changed files
@@ -43,7 +53,7 @@ jobs:
         id: separated-files
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
-        run: node build/github.action.lint.js
+        run: node build/github/github.action.lint.js
 
       - name: Run Eslint
         if: steps.separated-files.outputs.js_changed_files != ''
