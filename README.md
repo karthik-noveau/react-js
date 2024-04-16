@@ -5,4 +5,4 @@
 
     3. Stylelint error properties
 
-    4. Generate stylelint report via runtime commands
+    4. Generate stylelint report via CLI
