@@ -3,7 +3,8 @@ import * as echarts from "echarts";
 import { SVGRenderer } from "echarts/renderers";
 
 import {
-  getCustomSvgPath,
+  getCustomCircleElement,
+  getCustomPathElement,
   getCustomSvgDefsPattern,
 } from "./svgPatternConfig.js";
 
@@ -31,46 +32,25 @@ export function EChart({ options }) {
     });
 
     myChart.on("mouseover", function (params) {
+      let parentNode = params.event.event.target.parentElement;
       switch (params.componentSubType) {
         case "line": {
-          let parentNode = params.event.event.target.parentElement;
+          // area chart
           if (parentNode.attributes["clip-path"]?.nodeName === "clip-path") {
             console.log("mouser over parantNode", parentNode);
-            parentNode.appendChild(getCustomSvgPath(params));
+            parentNode.appendChild(getCustomPathElement(params));
           }
-
           break;
         }
         case "scatter": {
-          let parentNode = params.event.event.target.parentElement;
-          let parentRect =
-            params.event.event.target.parentElement.getBoundingClientRect();
-          let childRect = params.event.event.target.getBoundingClientRect();
-
-          let offsetX = params.event.event.offsetX;
-          let offsetY = params.event.event.offsetY;
-
-          const svgNS = "http://www.w3.org/2000/svg";
-          const circle = document.createElementNS(svgNS, "circle");
-          circle.setAttribute("r", childRect.width / 2);
-          circle.setAttribute("cx", offsetX);
-          circle.setAttribute("cy", offsetY);
-          circle.setAttribute("fill", "red");
-
-          parentNode.appendChild(circle);
-          console.log("offsetX", offsetX);
-          console.log("offsetY", offsetY);
-          console.log("parentRect", parentRect);
-          console.log("childRect", childRect);
-          console.log("childnode ", params.event.event  );
+          parentNode.appendChild(getCustomCircleElement(params));
 
           break;
         }
         default: {
-          console.log("default", params);
           // uppend the path to <g> node
           let parentNode = params.event.event.target.parentElement;
-          parentNode && parentNode.appendChild(getCustomSvgPath(params));
+          parentNode && parentNode.appendChild(getCustomPathElement(params));
         }
       }
     });
@@ -79,7 +59,6 @@ export function EChart({ options }) {
       let selectedTarget = params.event.event.target;
       let childNodes = selectedTarget.parentNode.childNodes;
 
-      console.log("mouseout target node", selectedTarget);
 
       if (selectedTarget.nodeName === "svg") {
         const childNodeList = Array.from(selectedTarget.childNodes);

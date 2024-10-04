@@ -52,14 +52,12 @@ export const getCustomSvgDefsPattern = () => {
   return defs;
 };
 
-export const getCustomSvgPath = (params) => {
+export const getCustomPathElement = (params) => {
   let selectedPathDValue;
-  switch (params.componentSubType) {
-    case "bar":
-      selectedPathDValue = params.event.target.__svgPathBuilder._str;
-      break;
-    default:
-      selectedPathDValue = params.event.event.toElement.attributes?.d?.value;
+  if (params.componentSubType === "bar") {
+    selectedPathDValue = params.event.target.__svgPathBuilder._str;
+  } else {
+    selectedPathDValue = params.event.event.toElement.attributes?.d?.value;
   }
 
   // Create a new path element
@@ -72,4 +70,20 @@ export const getCustomSvgPath = (params) => {
   pathElement.setAttribute("fill", `url(#${patternId})`);
 
   return pathElement;
+};
+
+export const getCustomCircleElement = (params) => {
+  let childRect = params.event.event.target.getBoundingClientRect();
+
+  let offsetX = params.event.event.offsetX;
+  let offsetY = params.event.event.offsetY;
+
+  const svg = "http://www.w3.org/2000/svg";
+  const circle = document.createElementNS(svg, "circle");
+  circle.setAttribute("r", childRect.width / 2);
+  circle.setAttribute("cx", offsetX);
+  circle.setAttribute("cy", offsetY);
+  circle.setAttribute("fill", "red");
+
+  return circle;
 };
